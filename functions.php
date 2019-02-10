@@ -23,3 +23,10 @@ function formatPrice ($summ) {
     }
     return $summ . ' ' . '<b class="rub">р</b>';
 };
+
+function get_lot_time() {
+    $cur_date = date_create('now');
+    $next_day = date_create('tomorrow');
+    $diff = date_diff($cur_date, $next_day);
+    return date_interval_format($diff,"%H:%I");
+};
