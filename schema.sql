@@ -12,7 +12,7 @@ CREATE TABLE lots (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name CHAR(128) NOT NULL,
   category_id INT NOT NULL,
-  date_start TIMESTAMP NOT NULL,
+  date_start TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   description TEXT NOT NULL,
   img_lot CHAR(255),
   start_price INT NOT NULL,
@@ -25,14 +25,14 @@ CREATE TABLE lots (
 CREATE TABLE bets (
   id INT AUTO_INCREMENT PRIMARY KEY,
   bet_amount INT NOT NULL,
-  date_bet TIMESTAMP NOT NULL,
+  date_bet TIMESTAMP CURRENT_TIMESTAMP NOT NULL,
   user_id INT NOT NULL,
   lot_id INT NOT NULL
 );
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  registration_date TIMESTAMP NOT NULL,
+  registration_date TIMESTAMP CURRENT_TIMESTAMP NOT NULL,
   email_user CHAR(128) NOT NULL UNIQUE,
   name_user CHAR(128) NOT NULL,
   password_user CHAR(64) NOT NULL,
