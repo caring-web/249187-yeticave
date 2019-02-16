@@ -42,7 +42,7 @@ VALUES
 
 INSERT INTO lots(name,
                   category_id,
-                  date_start,
+                  date_end,
                   description,
                   img_lot,
                   start_price,
@@ -52,8 +52,8 @@ INSERT INTO lots(name,
 VALUES
   ('2014 Rossignol District Snowboard',
     1,
-    '2019-02-01 13:15:45',
-    'Сноуборд',
+    '2019-03-19',
+    'Сноуборд DISTRICT от известного французского производителя ROSSIGNOL, разработан специально для начинающих фрирайдеров. Эта доска отлично подойдёт как для обычного склона, так и для парка, а также для обучения',
     'img/lot-1.jpg',
     10999,
     1000,
@@ -61,8 +61,8 @@ VALUES
     1),
   ('DC Ply Mens 2016/2017 Snowboard',
     1,
-    '2019-01-15 08:25:10',
-    'Доска',
+    '2019-04-01',
+    'DC Ply создан для трассового и паркового катания. Гибкая конструкция и отзывчивость поможет экспериментировать с новыми трюками',
     'img/lot-2.jpg',
     159999,
     1500,
@@ -70,8 +70,8 @@ VALUES
     2),
   ('Крепления Union Contact Pro 2015 года размер L/XL',
     2,
-    '2019-01-13 15:40:01',
-    'Крепления',
+    '2019-03-13',
+    'Одни из самых легких креплений, когда-либо созданных.',
     'img/lot-3.jpg',
     8000,
     400,
@@ -79,8 +79,8 @@ VALUES
     3),
   ('Ботинки для сноуборда DC Mutiny Charocal',
     3,
-    '2019-01-29 07:35:18',
-    'Ботинки',
+    '2019-02-29',
+    'Мои счастливые ботинки, даже продавать жалко',
     'img/lot-4.jpg',
     10999,
     500,
@@ -88,8 +88,8 @@ VALUES
     5),
   ('Куртка для сноуборда DC Mutiny Charocal',
     4,
-    '2019-01-10 20:20:05',
-    'Куртка',
+    '2019-03-10',
+    'Куртка просто супер!',
     'img/lot-5.jpg',
     7500,
     500,
@@ -97,8 +97,8 @@ VALUES
     2),
   ('Маска Oakley Canopy',
     6,
-    '2019-01-19 16:55:12',
-    'Маска',
+    '2019-03-19',
+    'В идеальном состоянии',
     'img/lot-6.jpg',
     5400,
     200,
@@ -117,16 +117,15 @@ FROM categories;
 
 --Получает самые новые, открытые лоты. Каждый лот включает название,
 --стартовую цену, ссылку на изображение, цену, название категории
-SELECT lots.*, categories.category
-FROM lots
-JOIN categories
-ON lots.category_id = categories.id
-WHERE date_end < CURDATE()
-ORDER BY date_end DESC;
+SELECT l.name, l.start_price, l.img_lot, c.category AS category_name FROM lots l
+JOIN categories c
+ON l.category_id = c.id
+ORDER BY l.date_start DESC;
+
 
 --Показывает лот по его id. Получает также название категории,
 --к которой принадлежит лот
-SELECT lots.*, categories.category
+SELECT lots.*, categories.category AS category_name
 FROM lots
 JOIN categories
 ON lots.category_id = categories.id
@@ -138,7 +137,11 @@ SET name = '2019 Rossignol District Snowboard'
 WHERE lots.id = 1;
 
 --Получает список самых свежих ставок для лота по его идентификатору
-SELECT *
-FROM bets
-WHERE lot_id = 3;
-ORDER BY date_bet DESC;
+SELECT b.date_bet, b.bet_amount, l.name, u.name_user
+FROM bets b
+JOIN lots l
+ON b.lot_id = l.id
+JOIN users u
+ON b.user_id = u.id
+WHERE l.id = 3;
+ORDER BY b.cost DESC;
