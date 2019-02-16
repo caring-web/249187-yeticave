@@ -24,7 +24,7 @@
         <nav class="user-menu">
             <?php if ($is_auth==1): ?>
                     <div class="user-menu__logged">
-                        <p><?=$user_name; ?></p>
+                        <p><?=htmlspecialchars($user_name); ?></p>
                     </div>
             <?php else: ?>
                     <ul class="user-menu__list">
@@ -48,11 +48,11 @@
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <?php foreach ($categories as $key => $val): ?>
-            <li class="nav__item">
-                <a href="pages/all-lots.html"><?=$val;?></a>
-            </li>
-            <?php endforeach; ?>
+            <?php foreach ($categories as $category): ?>
+               <li class="nav__item">
+                   <a href="pages/all-lots.html"><?=$category['category']; ?></a>
+               </li>
+           <?php endforeach; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">

@@ -1,11 +1,11 @@
 <?php
+date_default_timezone_set($config['timezone']);
+
 $is_auth = rand(0, 1);
 
 $user_name = 'Irina Keyder'; // укажите здесь ваше имя
 
 $title = 'Главная страница интернет-аукциона';
-
-$categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
 
 $lots = [
     [
