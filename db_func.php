@@ -33,4 +33,22 @@ function db_opened_lots($link) {
     }
     return $result;
 }
+
+/**
+ * @param $link ресурс соединения
+ * @param $lot номер лота, который надо получить
+ * @return лот по id из БД
+ */
+function db_lot_id ($link, $lot) {
+    $sql = 'SELECT lots.*,
+            categories.category AS category_name
+            FROM lots
+            JOIN categories ON lots.category_id = categories.id
+            WHERE lots.id=" . intval($lot) .";';
+    $result = mysqli_query($link, $sql);
+    if ($result !== false) {
+        $lot_id = mysqli_fetch_assoc($result);
+        return $lot_id;
+    }
+}
 ?>
