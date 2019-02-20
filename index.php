@@ -8,7 +8,6 @@ require_once('db_func.php');
 $categories = db_categories($link);
 $lots = db_opened_lots($link);
 
-
 $page_content = include_template('main.php', ['lots' => $lots, 'categories' => $categories]);
 $layout_content = include_template('layout.php',
     [
