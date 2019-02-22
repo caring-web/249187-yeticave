@@ -5,4 +5,5 @@ $config = [
     'avatar_path' => 'img/',  //путь к аватару пользователя
     'lot_img_path' => 'img/'  //путь к изображениям лотов
 ];
-?>
+
+date_default_timezone_set($config['timezone']);

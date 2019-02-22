@@ -3,7 +3,7 @@
     <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
     <ul class="promo__list">
         <?php foreach ($categories as $category): ?>
-        <li class="promo__item promo__item--boards">
+        <li class="promo__item <?=$category['class_category']; ?>">
                 <a class="promo__link" href="pages/all-lots.html"><?=$category['category']; ?></a>
         </li>
         <?php endforeach; ?>
@@ -17,11 +17,11 @@
         <?php foreach ($lots as $lot): ?>
             <li class="lots__item lot">
                 <div class="lot__image">
-                    <img src="<?=htmlspecialchars($lot['img_lot']); ?>" width="350" height="260" alt="<?=htmlspecialchars($lot['name']); ?>">
+                    <img src="<?=$lot['img_lot']; ?>" width="350" height="260" alt="<?=htmlspecialchars($lot['name']); ?>">
                 </div>
                 <div class="lot__info">
                     <span class="lot__category"><?=htmlspecialchars($lot['category_name']); ?></span>
-                    <h3 class="lot__title"><a class="text-link" href="lot.php?id=<?=$lot_id["id"];?>" ><?=htmlspecialchars($lot['name']); ?></a></h3>
+                    <h3 class="lot__title"><a class="text-link" href="lot.php?id=<?=$lot["id"];?>" ><?=htmlspecialchars($lot['name']); ?></a></h3>
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>

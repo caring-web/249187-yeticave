@@ -1,10 +1,8 @@
 <?php
-require_once('data.php');
 require_once('init.php');
-require_once('functions.php');
-require_once('config/config.php');
 require_once('db_func.php');
 
+$lots = [];
 $categories = db_categories($link);
 $lots = db_opened_lots($link);
 
@@ -19,4 +17,3 @@ $layout_content = include_template('layout.php',
     ]);
 
 print($layout_content);
-?>

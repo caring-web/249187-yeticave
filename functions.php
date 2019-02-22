@@ -21,7 +21,7 @@ function formatPrice ($summ) {
     if ($summ > 1000) {
         $summ = number_format($summ, 0, ',', ' ');
     }
-    return $summ . ' ' . '<b class="rub">р</b>';
+    return $summ . '<b class="rub">р</b>';
 };
 
 function get_lot_time() {
