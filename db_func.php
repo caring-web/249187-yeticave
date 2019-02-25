@@ -25,7 +25,7 @@ function db_opened_lots($link) {
     'SELECT l.name, l.start_price, l.img_lot, l.id, c.category AS category_name FROM lots l
     JOIN categories c
     ON l.category_id = c.id
-    ORDER BY l.date_start DESC';
+    ORDER BY l.date_start DESC LIMIT 9';
     if ($query = mysqli_query($link, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
     }

@@ -5,24 +5,11 @@ require_once('db_func.php');
 $lots = [];
 $categories = db_categories($link);
 
-if (isset($_GET['id'])) {
-    $lot = intval($_GET['id']);
+$lot = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-    if (isset($lot) && !empty($lot)) {
-        $lot_id = db_lot_id($link, $lot);
-        $page_content = include_template('lot.php', ['lot_id' => $lot_id, 'lots' => $lots, 'categories' => $categories]);
-        $layout_content = include_template('layout.php',
-            [
-                'content' => $page_content,
-                'title' => $title,
-                'categories' => $categories,
-                'is_auth' => $is_auth,
-                'user_name' => $user_name
-            ]);
-        print($layout_content);
-        exit();
-    }
-    else {
+$lot_id = !empty($lot) ? db_lot_id($link, $lot) : [];
+
+if (empty($lot_id)) {
         $error = [
             'title' => '404 Страница не найдена',
             'message' => 'Данной страницы не существует на сайте.'
@@ -40,7 +27,17 @@ if (isset($_GET['id'])) {
         print($layout_content);
         exit();
     }
-}
+
+$page_content = include_template('lot.php', ['lot_id' => $lot_id, 'lots' => $lots, 'categories' => $categories]);
+$layout_content = include_template('layout.php',
+    [
+        'content' => $page_content,
+        'title' => $title,
+        'categories' => $categories,
+        'is_auth' => $is_auth,
+        'user_name' => $user_name
+    ]);
+print($layout_content);
 
 
 
