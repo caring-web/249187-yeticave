@@ -1,6 +1,5 @@
 <?php
 require_once('init.php');
-require_once('db_func.php');
 
 $lots = [];
 $categories = db_categories($link);
