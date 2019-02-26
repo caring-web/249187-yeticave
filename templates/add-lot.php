@@ -1,13 +1,13 @@
 <nav class="nav">
     <ul class="nav__list container">
         <?php foreach ($categories as $category): ?>
-            <li class="nav__item">
-                <a href="pages/all-lots.html"><?=$category['category']; ?></a>
-            </li>
-        <?php endforeach; ?>
+           <li class="nav__item">
+               <a href="pages/all-lots.html"><?=$category['category']; ?></a>
+           </li>
+       <?php endforeach; ?>
     </ul>
 </nav>
-<form class="form form--add-lot container<?=empty($errors) ? '' : ' form--invalid'; ?>" action="add-lot.php" method="post" enctype="multipart/form-data">
+<form class="form form--add-lot container<?=empty($errors) ? '' : ' form--invalid'; ?>" action="add.php" method="post" enctype="multipart/form-data">
     <h2>Добавление лота</h2>
     <div class="form__container-two">
         <div class="form__item<?=!isset($errors['lot-name']) ? '' : ' form__item--invalid'; ?>">
@@ -20,7 +20,7 @@
             <select id="category" name="category" required>
                 <option value="" selected disabled>Выберите категорию</option>
                 <?php foreach ($categories as $category): ?>
-                    <option value="<?=$category['category_id']; ?>"<?=(!empty($data['category']) && $data['category'] === $category['category_id']) ? ' selected' : ''; ?>><?=$category['name']; ?></option>
+                <option value="<?=$category['id']; ?>"<?=(!empty($data['category']) && $data['category'] === $category['id']) ? ' selected' : ''; ?>><?=$category['category']; ?></option>
                 <?php endforeach; ?>
             </select>
             <span class="form__error"><?=!isset($errors['category']) ? '' : $errors['category']; ?></span>
@@ -64,6 +64,6 @@
             <span class="form__error"><?=!isset($errors['lot-date']) ? '' : $errors['lot-date']; ?></span>
         </div>
     </div>
-    <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
+    <span class="form__error form__error--bottom">Пожалуйста, проверьте правильность заполнения формы!</span>
     <button type="submit" class="button">Добавить лот</button>
 </form>

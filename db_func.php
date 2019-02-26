@@ -89,13 +89,14 @@ function db_lot_id ($link, $lot) {
 }
 
 /**
- * Выполняет запись новой строки в таблицу lots базы данных на основе переданных данных и возвращает идентификатор этой строки
+ * Записывает новую строку в таблицу lots и возвращает id этой строки
  *
- * @param mysqli $link Идентификатор подключения к серверу MySQL
+ * @param @param $link ресурс соединения
  * @param array $data Массив данных для подготовленного выражения
- * @return string Идентификатор записанной строки
+ * @return string id записанной строки
  */
-function db_add_lot($link, $data) {
+
+function db_add_lot ($link, $data) {
     $lot_id = '';
     $sql =
         "INSERT INTO lots (name, description, img_lot, date_start, date_end, bet_step, category_id, user_id)
@@ -115,7 +116,7 @@ function db_add_lot($link, $data) {
         $lot_id = mysqli_insert_id($link);
     }
     else {
-        exit('Произошла ошибка. Попробуйте снова или обратитесь к администратору.');
+        exit('Упс...Ошибочка вышла...');
     }
-    return $lot_id;
+    return $lot;
 }
