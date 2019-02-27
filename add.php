@@ -84,10 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['photo'] = 'Загрузите файл с изображением лота';
     }
     if(empty($errors)) {
-        $file_dir =  $config['lot_img_path'];
-        move_uploaded_file($_FILES['photo']['tmp_name'], $file_dir . $file_name);
-        $data['author'] = $user_name;
+    /*    $file_dir =  $config['lot_img_path'];*/
         $data['file-name'] = $file_name;
+        move_uploaded_file($_FILES['photo']['tmp_name'], __DIR__ . $file_name);
+        $data['author'] = 1;
         $lot = db_add_lot($link, $data);
         header("Location: lot.php?id=" . $lot);
     }

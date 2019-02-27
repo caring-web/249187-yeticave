@@ -98,7 +98,7 @@ function db_lot_id ($link, $lot) {
 function db_add_lot ($link, $data) {
     $lot_id = '';
     $sql =
-        "INSERT INTO lots (name, description, img_lot, date_start, date_end, bet_step, category_id, user_id)
+        "INSERT INTO lots (name, description, img_lot, start_price, date_end, bet_step, category_id, user_id)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = db_get_prepare_stmt($link, $sql, [
         $data['lot-name'],
