@@ -95,7 +95,6 @@ function db_lot_id ($link, $lot) {
  * @param array $data Массив данных для подготовленного выражения
  * @return string id записанной строки
  */
-
 function db_add_lot ($link, $data) {
     $lot_id = '';
     $sql =
@@ -118,5 +117,5 @@ function db_add_lot ($link, $data) {
     else {
         exit('Упс...Ошибочка вышла...');
     }
-    return $lot;
+    return $lot_id;
 }
