@@ -119,3 +119,59 @@ function db_add_lot ($link, $data) {
     }
     return $lot_id;
 }
+
+/**
+ * Выполняет запись новой строки в таблицу users БД и возвращает id этой строки
+ *
+ * @param mysqli $link ресурс соединения
+ * @param array $form Массив данных для подготовленного выражения
+ * @return string id записанной строки
+ */
+function db_add_user($link, $data) {
+    $user_id = '';
+    $avatar_field = empty($data['file-name']) ? '' : ',avatar_user';
+    $avatar_value = empty($data['file-name']) ? '' : ',?';
+    $stmt_data = [
+        $data['name'],
+        $data['password'],
+        $data['email'],
+        $data['message']
+    ];
+    if (!empty($data['file-name'])) {
+        array_push($stmt_data, $data['file-name']);
+    }
+    $sql =
+        "INSERT INTO users (name_user, password_user, email_user, contacts_user $avatar_field)
+            VALUES (?, ?, ?, ? $avatar_value)";
+    $stmt = db_get_prepare_stmt($link, $sql, $stmt_data);
+    $result = mysqli_stmt_execute($stmt);
+    if ($result) {
+        $user_id = mysqli_insert_id($link);
+    }
+    else {
+        exit('Упс...Ошибочка вышла...');
+    }
+    return $user_id;
+}
+
+/**
+ * Проверяет в БД в таблице users совпадения по email
+ *
+ * @param mysqli $link ресурс соединения
+ * @param string $email электронный адрес
+ * @return bool true - запись с указанным e-mail найдена, false - запись не найдена
+ */
+function db_email($link, $email) {
+    $result = 0;
+    $sql =
+        "SELECT id
+            FROM users
+            WHERE email_user = '$email'";
+    if ($query = mysqli_query($link, $sql)) {
+        $result = mysqli_num_rows($query);
+    }
+    else {
+        exit('Упс...');
+    }
+    return !($result === 0);
+}

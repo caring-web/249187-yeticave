@@ -7,9 +7,9 @@
        <?php endforeach; ?>
     </ul>
 </nav>
-<form class="form container<?=empty($errors) ? '' : ' form--invalid'; ?>" action="sign-up.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
+<form class="form container<?=empty($errors) ? '' : ' form--invalid'; ?>" action="sign.php" method="post" enctype="multipart/form-data">
 <h2>Регистрация нового аккаунта</h2>
-<div class="form__item<?=!isset($errors['email']) ? '' : ' form__item--invalid'; ?>"> <!-- form__item--invalid -->
+<div class="form__item<?=!isset($errors['email']) ? '' : ' form__item--invalid'; ?>">
 <label for="email">E-mail*</label>
 <input id="email" type="text" name="email" placeholder="Введите e-mail" required<?=empty($data['email']) ? '' : ' value="' . $data['email'] . '"'; ?>>
 <span class="form__error"><?=!isset($errors['email']) ? '' : $errors['email']; ?></span>
@@ -26,7 +26,7 @@
 </div>
 <div class="form__item<?=!isset($errors['message']) ? '' : ' form__item--invalid'; ?>">
 <label for="message">Контактные данные*</label>
-<textarea id="message" name="message" placeholder="Напишите как с вами связаться" required><?=empty($data['message']) ? '' : ' value="' . $data['message'] . '"'; ?></textarea>
+<textarea id="message" name="message" placeholder="Напишите как с вами связаться" required><?=empty($data['message']) ? '' : $data['message']; ?></textarea>
 <span class="form__error"><?=!isset($errors['message']) ? '' : $errors['message']; ?></span>
 </div>
 <div class="form__item form__item--file form__item--last<?=!isset($errors['avatar']) ? '' : ' form__item--invalid'; ?>">
@@ -38,7 +38,7 @@
   </div>
 </div>
 <div class="form__input-file">
-  <input class="visually-hidden" type="file" id="photo2" value="">
+  <input class="visually-hidden" type="file" id="photo2" name="avatar" value="">
   <label for="photo2">
     <span>+ Добавить</span>
   </label>
