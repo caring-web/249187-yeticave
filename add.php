@@ -1,17 +1,15 @@
 <?php
 require_once('init.php');
 require_once('config/config.php');
-
 $categories = db_categories($link);
 $lot_id = !empty($lot) ? db_lot_id($link, $lot) : [];
-
+$data['author'] = 1;
 //Ограничения полей формы
 $lenght_title = 100;
 $lenght_description = 750;
 $max_price = 99999999;
 $max_step_bet = 999999;
 $max_file = 1.5;
-
 // Данные из формы
 $data = [];
 // Ошибки, которые допустил пользователь при заполнении формы
@@ -87,11 +85,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     if(empty($errors)) {
         $file_dir =  $config['lot_img_path'];
-        move_uploaded_file($_FILES['photo']['tmp_name'], $file_dir . $file_name);
-        $data['author'] = $user_name;
         $data['file-name'] = $file_name;
-        $lot_id = db_add_lot($link, $data);
-        header("Location: lot.php?id=" . $lot_id);
+        move_uploaded_file($_FILES['photo']['tmp_name'], $file_dir. $file_name);
+        $data['author'] = 1;
+        $lot = db_add_lot($link, $data);
+        header("Location: lot.php?id=" . $lot);
     }
 }
 $page_content = include_template('add-lot.php', [
