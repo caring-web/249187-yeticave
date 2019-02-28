@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data[$key] = trim($_POST[$key]);
         }
         else {
-            $errors[$key] = 'Это поле необходимо заполнить';
+            $errors[$key] = 'Это поле обязательно для заполнения!';
 
         }
     }
