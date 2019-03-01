@@ -1,15 +1,19 @@
 <?php
 require_once('init.php');
 
+if(!empty($user)) {
+    header("Location: /");
+    exit();
+}
+
 $categories = db_categories($link);
 
 // Данные из формы
 $data = [];
 // Ошибки, которые допустил пользователь при заполнении формы
 $errors = [];
-
-$length_password = 8;
-$name_length = 100;
+// Ошибка аутентификации
+$is_auth_error = false;
 
 //Проверяем отправлена ли форма и заполнены ли все обязательные поля
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -24,10 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($errors['email'])) {
-        //Проверяем корректность адреса электронной почты
-        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'Введите корректный формат адреса электронной почты';
-        }
         //Проверим существование пользователя с email из формы
         $email = mysqli_real_escape_string($link, $data['email']);
         $sql = "SELECT * FROM users WHERE email_user = '$email'";
@@ -35,22 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
 
         if (!count($errors) and $user) {
-            if (password_verify($data['password'], $user['password'])) {
-                $_SESSION['user'] = $user['id'];
+            if (password_verify($data['password'], $user['password_user'])) {
+                $_SESSION['user'] = $user['password_user'];
             }
             else {
                 $errors['password'] = 'Неверный пароль';
             }
         }
         else {
-            $errors['email'] = 'Такой пользователь не найден';
+            $errors['email'] = 'Данный пользователь не найден';
         }
-        if (count($errors)) {
-            $page_content = include_template('login.php', ['data' => $data, 'errors' => $errors]);
-        }
-        else {
-            header("Location: index.php");
-            exit();
+        if(empty($errors) && !$is_auth_error) {
+        $_SESSION['user'] = $user;
+        header("Location: /");
+        exit();
         }
     }
 }
@@ -60,7 +58,6 @@ $layout_content = include_template('layout.php',
         'content' => $page_content,
         'title' => $title,
         'categories' => $categories,
-        'is_auth' => $is_auth,
-        'user_name' => $user_name
+        'user' => $user
     ]);
 print($layout_content);

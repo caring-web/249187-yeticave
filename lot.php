@@ -20,8 +20,7 @@ if (empty($lot_id)) {
                 'content' => $page_content,
                 'title' => $error['title'],
                 'categories' => $categories,
-                'is_auth' => $is_auth,
-                'user_name' => $user_name
+                'user' => $user
             ]);
         print($layout_content);
         exit();
@@ -33,15 +32,6 @@ $layout_content = include_template('layout.php',
         'content' => $page_content,
         'title' => $title,
         'categories' => $categories,
-        'is_auth' => $is_auth,
-        'user_name' => $user_name
+        'user' => $user
     ]);
 print($layout_content);
-
-
-
-
-
-
-
-

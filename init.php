@@ -9,10 +9,7 @@ require_once 'config/config.php';
 require_once('db_func.php');
 
 session_start();// открываем ссесию
-
-$is_auth = rand(0, 1);
-
-$user_name = 'Irina Keyder';
+$user = isset($_SESSION['user']) ? $_SESSION['user'] : [];
 
 $title = 'YetiCave';
 
