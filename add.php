@@ -1,9 +1,15 @@
 <?php
 require_once('init.php');
-require_once('config/config.php');
+
+if (empty($user)) {
+    print('Добавление лотов доступно только авторизованным пользователям.
+    Пожалуйста, войдите в свой аккаунт, если у вас уже есть учетная запись,
+    или зарегистрируйтесь.');
+    exit();
+}
+
 $categories = db_categories($link);
-$lot_id = !empty($lot) ? db_lot_id($link, $lot) : [];
-$data['author'] = 1;
+
 //Ограничения полей формы
 $lenght_title = 100;
 $lenght_description = 750;
@@ -14,6 +20,7 @@ $max_file = 1.5;
 $data = [];
 // Ошибки, которые допустил пользователь при заполнении формы
 $errors = [];
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $keys = ['lot-name', 'category', 'message', 'lot-rate', 'lot-step', 'lot-date'];
     $file_name = '';
@@ -87,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $file_dir =  $config['lot_img_path'];
         $data['file-name'] = $file_name;
         move_uploaded_file($_FILES['photo']['tmp_name'], $file_dir. $file_name);
-        $data['author'] = 1;
+        $data['author'] = $user['id'];
         $lot = db_add_lot($link, $data);
         header("Location: lot.php?id=" . $lot);
     }
@@ -97,14 +104,13 @@ $page_content = include_template('add-lot.php', [
     'errors' => $errors,
     'data' => $data,
     'categories' => $categories,
-    'user_name' => $user_name
+    'user' => $user
 ]);
 $layout_content = include_template('layout.php',
     [
         'content' => $page_content,
         'title' => $title,
         'categories' => $categories,
-        'is_auth' => $is_auth,
-        'user_name' => $user_name
+        'user' => $user
     ]);
 print($layout_content);

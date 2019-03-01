@@ -8,9 +8,8 @@ require_once 'config/db.php';
 require_once 'config/config.php';
 require_once('db_func.php');
 
-$is_auth = rand(0, 1);
-
-$user_name = 'Irina Keyder'; // укажите здесь ваше имя
+session_start();// открываем ссесию
+$user = isset($_SESSION['user']) ? $_SESSION['user'] : [];
 
 $title = 'YetiCave';
 

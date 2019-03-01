@@ -22,11 +22,16 @@
         <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
 
         <nav class="user-menu">
-            <?php if ($is_auth==1): ?>
-                    <div class="user-menu__logged">
-                        <p><?=htmlspecialchars($user_name); ?></p>
+            <?php if (!empty($user)): ?>
+                    <div class="user-menu__image">
+                        <img src="<?=empty($user['avatar_user']) ? 'img/user.png' : "img/" . $user['avatar_user']; ?>" width="40" height="40" alt="Аватар пользователя">
                     </div>
-            <?php else: ?>
+                    <div class="user-menu__logged">
+                        <p><?=htmlspecialchars($user['name_user']); ?></p>
+                        <a href="my-lots.php">Мои ставки</a>
+                        <a href="logout.php">Выйти</a>
+                    </div>
+                <?php else: ?>
                     <ul class="user-menu__list">
                         <li class="user-menu__item">
                             <a href="sign.php">Регистрация</a>
@@ -35,7 +40,7 @@
                             <a href="login.php">Вход</a>
                         </li>
                     </ul>
-            <?php endif; ?>
+                <?php endif; ?>
         </nav>
     </div>
 </header>

@@ -1,6 +1,11 @@
 <?php
 require_once('init.php');
 
+if(!empty($user)) {
+    header("Location: /");
+    exit();
+}
+
 $categories = db_categories($link);
 
 // Данные из формы
@@ -23,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data[$key] = trim($_POST[$key]);
         }
         else {
-            $errors[$key] = 'Это поле необходимо заполнить';
+            $errors[$key] = 'Это поле обязательно для заполнения!';
 
         }
     }
@@ -93,15 +98,14 @@ $page_content = include_template('sign-up.php', [
     'errors' => $errors,
     'data' => $data,
     'categories' => $categories,
-    'user_name' => $user_name
+    'user' => $user
 ]);
 $layout_content = include_template('layout.php',
     [
         'content' => $page_content,
         'title' => $title,
         'categories' => $categories,
-        'is_auth' => $is_auth,
-        'user_name' => $user_name
+        'user' => $user
     ]);
 print($layout_content);
 ?>
