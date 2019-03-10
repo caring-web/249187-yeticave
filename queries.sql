@@ -129,7 +129,7 @@ UPDATE lots
   WHERE lots.id = 1;
 
 -- Получает список самых свежих ставок для лота по его идентификатору
-SELECT adding_date, bet_amount, b.user_id, u.name_user AS user
+SELECT b.date_bet, b.bet_amount, b.user_id, u.name_user AS user
   FROM bets b
   JOIN users u ON u.id = b.user_id
   WHERE b.lot_id = 3
