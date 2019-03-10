@@ -175,3 +175,53 @@ function db_email($link, $email) {
     }
     return !($result === 0);
 }
+
+/**
+ * Возвращает массив ставок для указанного лота
+ *
+ * @param mysqli $link ресурс соединения
+ * @param int $lot ID лота
+ * @return array Массив ставок для указанного лота
+ */
+function db_bets($link, $lot) {
+    $result = [];
+    $sql =
+        "SELECT b.date_bet, b.bet_amount, b.user_id, u.name_user AS user
+          FROM bets b
+          JOIN users u ON u.id = b.user_id
+          WHERE b.lot_id = $lot
+          ORDER BY b.date_bet DESC";
+    if ($query = mysqli_query($link, $sql)) {
+        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    } else {
+        exit('Произошла ошибка. Попробуйте снова или обратитесь к администратору.');
+    }
+    return $result;
+}
+
+/**
+ * Выполняет запись новой строки в таблицу bets базы данных на основе переданных данных и возвращает идентификатор этой строки
+ *
+ * @param mysqli $link ресурс соединения c MySQL
+ * @param array $data Массив данных для подготовленного выражения
+ * @return string id записанной строки
+ */
+function db_add_bet($link, $data)
+{
+    $bet_id = '';
+    $sql =
+        "INSERT INTO bets (bet_amount, user_id, lot_id)
+            VALUES (?, ?, ?)";
+    $stmt = db_get_prepare_stmt($link, $sql, [
+        $data['cost'],
+        $data['user_id'],
+        $data['lot_id']
+    ]);
+    $result = mysqli_stmt_execute($stmt);
+    if ($result) {
+        $bet_id = mysqli_insert_id($link);
+    } else {
+        exit('Произошла ошибка. Попробуйте снова или обратитесь к администратору.');
+    }
+    return $bet_id;
+}
