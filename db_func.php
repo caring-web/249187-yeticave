@@ -72,8 +72,8 @@ function db_opened_lots($link) {
 /**
  * Возвращает лот по id
  * @param $link ресурс соединения
- * @param $lot номер лота, который надо получить
- * @return лот по id из БД
+ * @param int $lot id лота
+ * @return array Массив данных указанного лота
  */
 function db_lot_id ($link, $lot) {
     $sql = "SELECT lots.*,

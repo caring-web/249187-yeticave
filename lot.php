@@ -24,6 +24,12 @@ if (empty($lot_id)) {
             [
                 'content' => $page_content,
                 'title' => $error['title'],
+                'is_home_page' => false,
+                    'categories_content' => include_template('categories.php',
+                        [
+                            'categories' => $categories
+                        ]
+                    ),
                 'categories' => $categories,
                 'user' => $user
             ]);
@@ -80,6 +86,12 @@ $layout_content = include_template('layout.php',
     [
         'content' => $page_content,
         'title' => $title,
+        'is_home_page' => false,
+            'categories_content' => include_template('categories.php',
+                [
+                    'categories' => $categories
+                ]
+            ),
         'categories' => $categories,
         'user' => $user
     ]);

@@ -1,12 +1,3 @@
-<nav class="nav">
-    <ul class="nav__list container">
-        <?php foreach ($categories as $category): ?>
-            <li class="nav__item">
-                <a href="pages/all-lots.html"><?=$category['category']; ?></a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-</nav>
 <section class="lot-item container">
     <h2><?=htmlspecialchars($lot_id['name']); ?></h2>
     <div class="lot-item__content">
@@ -20,7 +11,7 @@
         <div class="lot-item__right">
             <div class="lot-item__state">
                 <div class="lot-item__timer timer">
-                    10:54
+                    <?=get_lot_time(); ?>
                 </div>
                 <div class="lot-item__cost-state">
                     <div class="lot-item__rate">
@@ -28,7 +19,7 @@
                         <span class="lot-item__cost"><?=formatPrice($lot_id['start_price']); ?></span>
                     </div>
                     <div class="lot-item__min-cost">
-                        Мин. ставка <span>12 000 р</span>
+                        Мин. ставка <span><?=formatPrice($lot_id['start_price'] + $lot_id['bet_step']); ?> </span>
                     </div>
                 </div>
                 <?php if ($show_add_bet): ?>
@@ -50,7 +41,7 @@
                     <tr class="history__item">
                         <td class="history__name"><?=htmlspecialchars($bet['user']); ?></td>
                         <td class="history__price"><?=formatPrice($bet['bet_amount']); ?></td>
-                        <td class="history__time"><?=$bet['date_bet']; ?></td>
+                        <td class="history__time"><?=get_bet_time($bet['date_bet']); ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </table>

@@ -16,4 +16,4 @@ $title = 'YetiCave';
 $link = mysqli_connect($db['host'], $db['user'], $db['password'], $db['database']);
 mysqli_set_charset($link, "utf8");
 
-$categories = [];
+$categories = db_categories($link);
