@@ -6,8 +6,6 @@ if(!empty($user)) {
     exit();
 }
 
-$categories = db_categories($link);
-
 // Данные из формы
 $data = [];
 // Ошибки, которые допустил пользователь при заполнении формы
@@ -20,7 +18,7 @@ $message_length = 255;
 $avatar_size = 200; //Кб
 
 //Проверяем отправлена ли форма и заполнены ли все обязательные поля
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $keys = ['email', 'password', 'name', 'message'];
     $file_name = '';
     foreach ($keys as $key) {
@@ -104,6 +102,12 @@ $layout_content = include_template('layout.php',
     [
         'content' => $page_content,
         'title' => $title,
+        'is_home_page' => false,
+            'categories_content' => include_template('categories.php',
+                [
+                    'categories' => $categories
+                ]
+            ),
         'categories' => $categories,
         'user' => $user
     ]);

@@ -21,7 +21,7 @@ $data = [];
 // Ошибки, которые допустил пользователь при заполнении формы
 $errors = [];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $keys = ['lot-name', 'category', 'message', 'lot-rate', 'lot-step', 'lot-date'];
     $file_name = '';
     foreach ($keys as $key) {
@@ -110,6 +110,12 @@ $layout_content = include_template('layout.php',
     [
         'content' => $page_content,
         'title' => $title,
+        'is_home_page' => false,
+            'categories_content' => include_template('categories.php',
+                [
+                    'categories' => $categories
+                ]
+            ),
         'categories' => $categories,
         'user' => $user
     ]);
