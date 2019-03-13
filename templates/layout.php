@@ -12,10 +12,10 @@
 <header class="main-header">
     <div class="main-header__container container">
         <h1 class="visually-hidden">YetiCave</h1>
-        <a class="main-header__logo">
+        <a class="main-header__logo" href="<?= !$is_home_page ? 'index.php' : ''; ?>">
             <img src="/img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
         </a>
-        <form class="main-header__search" method="get" action="search.php">
+        <form class="main-header__search" method="get" action="">
             <input type="search" name="search" placeholder="Поиск лота">
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
@@ -59,7 +59,7 @@
         <ul class="nav__list container">
             <?php foreach ($categories as $category): ?>
                <li class="nav__item">
-                   <a href="all-lots.html"><?=$category['category']; ?></a>
+                   <a href=""><?=$category['category']; ?></a>
                </li>
            <?php endforeach; ?>
         </ul>

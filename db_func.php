@@ -43,7 +43,7 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
  */
 function db_categories($link) {
     $result = [];
-    $sql = 'SELECT id, category FROM categories';
+    $sql = 'SELECT * FROM categories';
     if ($query = mysqli_query($link, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
     }

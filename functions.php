@@ -43,8 +43,7 @@ function formatPrice ($summ) {
  * @param string $date_end Дата окончания торгов
  * @return bool true - аукцион закончился, false - аукцион продолжается
  */
-function lot_closed($date_end)
-{
+function lot_closed($date_end) {
     return time() >= strtotime($date_end);
 };
 
@@ -53,8 +52,7 @@ function lot_closed($date_end)
  * @param string $end_lot - дата скрытия лота
  * @return string
  */
-function get_lot_time($end_lot = 'tomorrow')
-{
+function get_lot_time($end_lot = 'tomorrow') {
     $timestamp_lot_life = strtotime($end_lot) - time();
     if ($timestamp_lot_life < 0) {
         $formatted_interval_lot_life = '-- : --';

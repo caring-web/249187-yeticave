@@ -8,7 +8,7 @@ require_once 'config/db.php';
 require_once 'config/config.php';
 require_once 'db_func.php';
 
-session_start();// открываем ссесию
+session_start();// открываем сессию
 $user = isset($_SESSION['user']) ? $_SESSION['user'] : [];
 
 $title = 'YetiCave';

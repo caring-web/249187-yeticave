@@ -2,7 +2,6 @@
 require_once('init.php');
 
 $lots = [];
-$categories = db_categories($link);
 $data = [];
 $errors = [];
 
