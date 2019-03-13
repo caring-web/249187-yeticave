@@ -30,7 +30,8 @@ CREATE TABLE lots (
   bet_step INT UNSIGNED NOT NULL,
   category_id SMALLINT UNSIGNED NOT NULL,
   user_id INT UNSIGNED NOT NULL,
-  winner_id INT UNSIGNED
+  winner_id INT UNSIGNED,
+  FULLTEXT INDEX lot_search (title,description)
 );
 
 CREATE TABLE bets (

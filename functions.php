@@ -38,19 +38,6 @@ function formatPrice ($summ) {
 };
 
 /**
- * Возвращает временной промежуток до скрытия лота в формате вида "ЧЧ:ММ"
- *
- * @return string
- */
-
-function get_lot_time() {
-    $cur_date = date_create('now');
-    $next_day = date_create('tomorrow');
-    $diff = date_diff($cur_date, $next_day);
-    return date_interval_format($diff,"%H:%I");
-};
-
-/**
  * Проверяет не закончился ли аукцион по данному лоту
  *
  * @param string $date_end Дата окончания торгов
@@ -59,39 +46,58 @@ function get_lot_time() {
 function lot_closed($date_end)
 {
     return time() >= strtotime($date_end);
-}
+};
 
 /**
- * Возвращает время, прошедшее с момента добавления ставки, или непосредственно время добавления ставки в удобочитаемом формате
- *
- * @param string $adding_time Дата и время добавления ставки
- * @return string Отформатированное время добавления ставки
+ * Возвращает временной промежуток до скрытия лота в формате вида "ЧЧ:ММ"
+ * @param string $end_lot - дата скрытия лота
+ * @return string
  */
-function get_bet_time($adding_time)
+function get_lot_time($end_lot = 'tomorrow')
 {
-    $add_time = strtotime($adding_time);
-    $result = date('d.m.y в H:i', $add_time);
-    if ($add_time > time()) {
-        return 'Ошибка! Время больше текущего';
+    $timestamp_lot_life = strtotime($end_lot) - time();
+    if ($timestamp_lot_life < 0) {
+        $formatted_interval_lot_life = '-- : --';
+        return $formatted_interval_lot_life;
     }
-    $seconds_passed = time() - $add_time;
-    $days_passed = (int) floor($seconds_passed / 86400);
-    $hours_passed = (int) floor(($seconds_passed % 86400) / 3600);
-    $minutes_passed = (int) floor(($seconds_passed % 3600) / 60);
-    if ($add_time >= strtotime('yesterday')) {
-        $result = sprintf('Вчера в %s', date('H:i', $add_time));
-    }
-    if ($add_time >= strtotime('today')) {
-        $result = sprintf('Сегодня в %s', date('H:i', $add_time));
-    }
-    if ($days_passed === 0) {
-        if ($hours_passed === 0 && $minutes_passed === 0) {
-            $result = $seconds_passed <= 30 ? 'Только что' : 'Минута назад';
-        } elseif ($hours_passed === 0) {
-            $result = $minutes_passed === 1 ? 'Минута назад' : sprintf('%d %s назад', $minutes_passed, num_format($minutes_passed, 'minute'));
-        } elseif ($hours_passed > 0 && $hours_passed <= 10) {
-            $result = $hours_passed === 1 ? 'Час назад' : sprintf('%d %s назад', $hours_passed, num_format($hours_passed, 'hour'));
+    else {
+        $hours_lot_life = floor($timestamp_lot_life / 3600);
+        $minutes_lot_life = floor(($timestamp_lot_life % 3600) / 60);
+        if ($hours_lot_life < 10) {
+            $hours_lot_life = '0' . $hours_lot_life;
         }
+        if ($minutes_lot_life < 10) {
+            $minutes_lot_life = '0' . $minutes_lot_life;
+        }
+        $formatted_interval_lot_life = $hours_lot_life . ':' . $minutes_lot_life;
+        return $formatted_interval_lot_life;
+        }
+};
+
+/**
+ * Возращает дату совершения ставки в зависимости от того, сколько прошло времени с момента совершения ставки
+ * @param string $adding_time - дата совершения ставки из БД
+ * @return false|string
+ */
+function get_bet_time($adding_time) {
+    $period = time() - strtotime($adding_time);
+    $period_in_minutes = floor($period / 60);
+    $period_in_hours = floor($period / 3600);
+    $yesterday = date('d.m.y', strtotime('Yesterday'));
+    $date_bid = date('d.m.y', strtotime($adding_time));
+    $minute_forms = ['минуту назад', 'минуты назад', 'минут назад'];
+    $hour_forms = ['час назад', 'часа назад', 'часов назад'];
+    switch (true) {
+        case ($date_bid === $yesterday):
+            return 'Вчера, в' . ' ' . date ('H:i', strtotime($adding_time));
+            break;
+        case ($period < 60):
+            return 'только что';
+        case ($period < 3600):
+            return $period_in_minutes . ' ' . nounEnding($period_in_minutes, $minute_forms);
+        case ($period < 86400):
+            return $period_in_hours . ' ' . nounEnding($period_in_hours, $hour_forms);
+        default:
+            return date ('d.m.y в H:i', strtotime($adding_time));
     }
-    return $result;
-}
+};

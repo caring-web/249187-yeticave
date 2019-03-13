@@ -59,7 +59,7 @@ function db_categories($link) {
 function db_opened_lots($link) {
     $result = [];
     $sql =
-    'SELECT l.name, l.start_price, l.img_lot, l.id, c.category AS category_name FROM lots l
+    'SELECT l.date_end, l.date_start, l.name, l.start_price, l.img_lot, l.id, c.category AS category_name FROM lots l
     JOIN categories c
     ON l.category_id = c.id
     ORDER BY l.date_start DESC LIMIT 9';

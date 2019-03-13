@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_data = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
         if (empty($errors['password'])) {
             if (!empty($user_data) && password_verify($data['password'], $user_data['password_user'])) {
-                $user['user_id'] = $user_data['id'];
+                $user['id'] = $user_data['id'];
                 $user['name'] = $user_data['name_user'];
                 $user['avatar'] = $user_data['avatar_user'];
             } elseif (empty($errors['email'])) {

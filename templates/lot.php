@@ -11,7 +11,7 @@
         <div class="lot-item__right">
             <div class="lot-item__state">
                 <div class="lot-item__timer timer">
-                    <?=get_lot_time(); ?>
+                    <?=get_lot_time($lot_id['date_end']); ?>
                 </div>
                 <div class="lot-item__cost-state">
                     <div class="lot-item__rate">

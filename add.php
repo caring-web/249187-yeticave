@@ -8,8 +8,6 @@ if (empty($user)) {
     exit();
 }
 
-$categories = db_categories($link);
-
 //Ограничения полей формы
 $lenght_title = 100;
 $lenght_description = 750;
@@ -34,10 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if (empty($errors['lot-name']) && strlen($data['lot-name']) > $lenght_title) {
         $errors['lot-name'] = 'Максимальное количество символов - ' . $lenght_title;
-    }
-    if (empty($errors['category']) && empty(db_categories($link, ['category_id' => mysqli_real_escape_string($link, $data['category'])]))) {
-        $errors['category'] = 'Выберите, пожалуйста, категорию!';
-        $data['category'] = '';
     }
     if (empty($errors['message']) && strlen($data['message']) > $lenght_description) {
         $errors['message'] = 'Максимальное количество символов - ' . $lenght_description;
